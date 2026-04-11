@@ -7,11 +7,11 @@ margin: 0;
 body {
     display: flex;
     flex-direction: column;
-    margin: auto;
     font-family: 'Arial', sans-serif;
     background-color: #a1e487bb;
     color: white;
-    max-width: 100vh;
+    width: 100%;
+    min-height: 100vh;
 }
 
 header {
@@ -20,12 +20,11 @@ header {
 }
 
 header > h1{
-background-color: #13be5b;
-display: inline-block;
-border-radius: 10px;
-padding: 10px;
-margin-bottom: 10px;
-margin-top: 10px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    padding: 15px;
+    background-image: linear-gradient( to left, rgb(0, 255, 98), rgb(28, 165, 62), rgb(14, 119, 31));
+
 }
 
 .busca-box input {
@@ -33,14 +32,16 @@ margin-top: 10px;
     width: 300px;
     border-radius: 5px 0 0 5px;
     border: none;
+    margin-right: -5px;
 }
 
 .busca-box button {
-    padding: 12px;
+    padding: 10px;
     background: #0aaf62;
     color: rgb(236, 236, 236);
     border: none;
     cursor: pointer;
+    padding-bottom: 12.2px;
     border-radius: 0 5px 5px 0;
 }
 
@@ -49,7 +50,7 @@ margin-top: 10px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
-    padding: 20px 0;
+    padding: 50px 29px;
 }
 
 .card {
@@ -57,18 +58,28 @@ margin-top: 10px;
     border-radius: 8px;
     overflow: hidden;
     text-align: center;
-    transition: 0.3s;
+    transition: transform 0.1s ease-in-out;
+    transition: 0.2 ease;
+}
+
+.card:active{
+transform: scale(0.95);
+}
+
+.card:hover{
+transform: translatey(-5px);
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.527);
 }
 
 .card img {
     width: 100%;
-    height: 250px;
+    height: 270px;
     object-fit: cover;
 }
 
 .card h4 {
     padding: 10px;
-    font-size: 14px;
+    font-size: 15px;
     height: 40px;
 }
 
@@ -79,6 +90,10 @@ margin-top: 10px;
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.card button:hover{
+background-color: rgb(10, 85, 3);
 }
 
 /* Modal Estilo */
