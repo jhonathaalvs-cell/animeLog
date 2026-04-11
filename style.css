@@ -1,0 +1,106 @@
+*{
+padding: 0;
+margin: 0;
+}
+
+/* Configurações Gerais */
+body {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    font-family: 'Arial', sans-serif;
+    background-color: #a1e487bb;
+    color: white;
+    max-width: 100vh;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header > h1{
+background-color: #13be5b;
+display: inline-block;
+border-radius: 10px;
+padding: 10px;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+
+.busca-box input {
+    padding: 12px;
+    width: 300px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+}
+
+.busca-box button {
+    padding: 12px;
+    background: #0aaf62;
+    color: rgb(236, 236, 236);
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+
+/* Grid de Animes */
+.grid-animes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.card {
+    background: #2ef085;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card h4 {
+    padding: 10px;
+    font-size: 14px;
+    height: 40px;
+}
+
+.card button {
+    width: 100%;
+    padding: 10px;
+    background: #13be5b;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Modal Estilo */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(17, 17, 17, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    color: #333;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.hidden { display: none; }
+
+textarea { width: 100%; height: 80px; margin-top: 10px; }
+input[type="number"] { width: 50px; }
