@@ -21,16 +21,17 @@
             </label>
         </div>
 
-        <section id="sessao-filtros">
-            <button class="btn-explorar" onclick="toggleFiltros()">
-                <h2 class="nav-h2">Explorar animes</h2>
-            </button>
-            <div class="filtros">
-                <button onclick="carregarPopulares('top')" class="btn-filtros">Mais Populares</button>
-                <button onclick="carregarPopulares('temporada')" class="btn-filtros">Destaques da temporada</button>
-                <button onclick="carregarPopulares('nota')" class="btn-filtros">Melhores Avaliados</button>
-            </div>
-        </button>
+       <section id="sessao-filtros">
+    <button class="btn-explorar" onclick="toggleFiltros()">
+        <h2 class="nav-h2">Explorar animes ▾</h2>
+    </button>
+    
+    <div id="filtros-menu" class="filtros hidden">
+        <button onclick="carregarPopulares('top')" class="btn-filtros">Mais Populares</button>
+        <button onclick="carregarPopulares('temporada')" class="btn-filtros">Destaques da temporada</button>
+        <button onclick="carregarPopulares('nota')" class="btn-filtros">Melhores Avaliados</button>
+    </div>
+</section>
     </header>
 
     <main>
