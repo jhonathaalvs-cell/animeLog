@@ -18,11 +18,11 @@ async function carregarPopulares(tipo = 'top') {
 
     let url = '';
     if (tipo === 'top') {
-        url = 'https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=15';
+        url = 'https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=20';
     } else if (tipo === 'temporada') {
-        url = 'https://api.jikan.moe/v4/seasons/now?limit=15';
+        url = 'https://api.jikan.moe/v4/seasons/now?limit=20';
     } else if (tipo === 'nota') {
-        url = 'https://api.jikan.moe/v4/top/anime?filter=favorite&limit=15';
+        url = 'https://api.jikan.moe/v4/top/anime?filter=favorite&limit=20';
     }
 
     try {
@@ -69,7 +69,7 @@ async function buscarAnimes() {
     if (sessaoBusca) sessaoBusca.classList.remove('hidden');
 
     try {
-        const response = await fetch(`https://api.jikan.moe/v4/anime?q=${termo}&limit=8`);
+        const response = await fetch(`https://api.jikan.moe/v4/anime?q=${termo}&limit=20`);
         const result = await response.json();
         const animes = result.data;
 
