@@ -1,186 +1,118 @@
-// Variáveis para controlar qual anime estamos avaliando no momento
-let animeSendoAvaliado = null;
+let paginaAtual = 1;
+let tipoAtual = 'top';
+let corpusAtual = 'anime';
+let generoAtual = '';
+let listaDestaque = [];
+let indexDestaque = 0;
 
-// --- FUNÇÃO PARA O BOTÃO EXPLORAR (ABRIR/FECHAR MENU) ---
-function toggleFiltros() {
-    const menu = document.getElementById('filtros-menu');
-    if (menu) {
-        menu.classList.toggle('hidden');
-    }
+// Inicialização
+window.onload = () => {
+    aplicarTemaSalvo();
+    iniciarCarrossel();
+    carregarConteudo(1, 'top', 'anime');
+};
+
+// --- TEMA ---
+function alternarTema() {
+    const html = document.documentElement;
+    const novoTema = html.getAttribute('data-tema') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-tema', novoTema);
+    localStorage.setItem('tema', novoTema);
 }
 
-// 1. FUNÇÃO DE EXPLORAR/FILTROS (Populares, Temporada, Notas)
-async function carregarPopulares(tipo = 'top') {
-    const container = document.getElementById('container-populares');
-    if (!container) return;
-
-    container.innerHTML = "<p style='color: white;'>Carregando...</p>";
-
-    let url = '';
-    if (tipo === 'top') {
-        url = 'https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=20';
-    } else if (tipo === 'temporada') {
-        url = 'https://api.jikan.moe/v4/seasons/now?limit=20';
-    } else if (tipo === 'nota') {
-        url = 'https://api.jikan.moe/v4/top/anime?filter=favorite&limit=20';
-    }
-
-    try {
-        const response = await fetch(url);
-        const result = await response.json();
-        const animes = result.data;
-
-        container.innerHTML = ""; 
-
-        animes.forEach(anime => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const tituloTratado = anime.title.replace(/'/g, "\\'");
-
-            // ALTERAÇÃO: Adicionado onclick na imagem para ir aos detalhes
-            card.innerHTML = `
-                <img src="${anime.images.jpg.image_url}" 
-                     onclick="window.location.href='detalhes.html?id=${anime.mal_id}'" 
-                     style="cursor:pointer" title="Clique para ver detalhes">
-                <h4>${anime.title}</h4>
-                <p style="color: #f7f700; font-weight: bold;">★ ${anime.score || 'N/A'}</p>
-                <button onclick="abrirModal('${tituloTratado}', '${anime.images.jpg.image_url}')">Adicionar</button>
-            `;
-            container.appendChild(card);
-        });
-
-        const menu = document.getElementById('filtros-menu');
-        if (menu) menu.classList.add('hidden');
-
-    } catch (erro) {
-        container.innerHTML = "<p>Erro ao carregar dados.</p>";
-    }
+function aplicarTemaSalvo() {
+    const salvo = localStorage.getItem('tema') || 'dark';
+    document.documentElement.setAttribute('data-tema', salvo);
 }
 
-// 2. FUNÇÃO DE BUSCA (Barra de Pesquisa)
-async function buscarAnimes() {
-    const termo = document.getElementById('inputBusca').value;
-    if (termo.length < 3) return alert("Digite pelo menos 3 letras!");
+// --- CARROSSEL (Destaque) ---
+async function iniciarCarrossel() {
+    const res = await fetch('https://api.jikan.moe/v4/seasons/now?limit=5');
+    const json = await res.json();
+    listaDestaque = json.data;
+    renderDestaque();
+    setInterval(() => {
+        indexDestaque = (indexDestaque + 1) % listaDestaque.length;
+        renderDestaque();
+    }, 7000);
+}
 
-    const container = document.getElementById('container-resultados');
-    const sessaoBusca = document.getElementById('sessao-busca');
-    
+function renderDestaque() {
+    const item = listaDestaque[indexDestaque];
+    if(!item) return;
+    document.getElementById('anime-destaque').innerHTML = `
+        <div class="destaque-info">
+            <h2>${item.title}</h2>
+            <p>${item.synopsis ? item.synopsis.substring(0, 160) + '...' : ''}</p>
+            <button onclick="window.location.href='detalhes.html?id=${item.mal_id}'">Mais Detalhes</button>
+        </div>
+        <div class="destaque-video">
+            ${item.trailer.embed_url ? `<iframe src="${item.trailer.embed_url}?autoplay=0&mute=1"></iframe>` : `<img src="${item.images.jpg.large_image_url}">`}
+        </div>
+    `;
+}
+
+// --- CONTEÚDO E PAGINAÇÃO ---
+async function carregarConteudo(page, type, corpus, genre = '') {
+    paginaAtual = page; tipoAtual = type; corpusAtual = corpus; generoAtual = genre;
+    const container = document.getElementById('container-cards');
     container.innerHTML = "Carregando...";
-    if (sessaoBusca) sessaoBusca.classList.remove('hidden');
+
+    let url = `https://api.jikan.moe/v4/${type}/${corpus}?page=${page}&limit=15`;
+    if(genre) url = `https://api.jikan.moe/v4/${corpus}?genres=${genre}&page=${page}&limit=15&order_by=score&sort=desc`;
 
     try {
-        const response = await fetch(`https://api.jikan.moe/v4/anime?q=${termo}&limit=20`);
-        const result = await response.json();
-        const animes = result.data;
-
-        container.innerHTML = ""; 
-
-        animes.forEach(anime => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const tituloTratado = anime.title.replace(/'/g, "\\'");
-
-            // ALTERAÇÃO: Adicionado onclick na imagem para ir aos detalhes
-            card.innerHTML = `
-                <img src="${anime.images.jpg.image_url}" 
-                     onclick="window.location.href='detalhes.html?id=${anime.mal_id}'" 
-                     style="cursor:pointer" title="Clique para ver detalhes">
-                <h4>${anime.title}</h4>
-                <button onclick="abrirModal('${tituloTratado}', '${anime.images.jpg.image_url}')">Adicionar</button>
+        const res = await fetch(url);
+        const json = await res.json();
+        container.innerHTML = "";
+        json.data.forEach(anim => {
+            container.innerHTML += `
+                <div class="card" onclick="window.location.href='detalhes.html?id=${anim.mal_id}'">
+                    <img src="${anim.images.jpg.image_url}">
+                    <h4>${anim.title}</h4>
+                </div>
             `;
-            container.appendChild(card);
         });
-    } catch (erro) {
-        container.innerHTML = "Erro ao carregar animes.";
+        renderPaginacao(json.pagination);
+    } catch(e) { container.innerHTML = "Erro ao carregar."; }
+}
+
+function renderPaginacao(info) {
+    const pag = document.getElementById('paginacao');
+    pag.innerHTML = "";
+    const total = Math.min(info.last_visible_page, 5); // Mostra até 5 botões
+    for(let i=1; i<=total; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.className = i === paginaAtual ? "btn-pag ativo" : "btn-pag";
+        btn.onclick = () => {
+            window.scrollTo({top: 400, behavior: 'smooth'});
+            carregarConteudo(i, tipoAtual, corpusAtual, generoAtual);
+        };
+        pag.appendChild(btn);
     }
 }
 
-// 3. FUNÇÕES DO MODAL
-function abrirModal(titulo, imagem) {
-    animeSendoAvaliado = { titulo, imagem };
-    document.getElementById('nome-anime-modal').innerText = titulo;
-    document.getElementById('modal-avaliacao').classList.remove('hidden');
-}
-
-function fecharModal() {
-    document.getElementById('modal-avaliacao').classList.add('hidden');
-    document.getElementById('nota-input').value = "";
-    document.getElementById('comentario-input').value = "";
-}
-
-// 4. SALVAR NO LOCALSTORAGE
-function salvarNaLista() {
-    const nota = document.getElementById('nota-input').value;
-    const comentario = document.getElementById('comentario-input').value;
-
-    if (!nota) return alert("Dê uma nota antes de salvar!");
-
-    const novoItem = { ...animeSendoAvaliado, nota, comentario };
-    const listaAtual = JSON.parse(localStorage.getItem('meusAnimes')) || [];
-    listaAtual.push(novoItem);
-    localStorage.setItem('meusAnimes', JSON.stringify(listaAtual));
-
-    fecharModal();
-    renderizarLista();
-}
-
-// 5. RENDERIZAR LISTA PESSOAL
-function renderizarLista() {
-    const containerLista = document.getElementById('minha-lista');
-    if (!containerLista) return;
-    
-    const listaSalva = JSON.parse(localStorage.getItem('meusAnimes')) || [];
-    containerLista.innerHTML = "";
-
-    listaSalva.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-            <img src="${item.imagem}">
-            <h4>${item.titulo}</h4>
-            <p>⭐ Nota: ${item.nota}</p>
-            <p style="font-size: 11px; color:#ccc;">"${item.comentario}"</p>
-            <button onclick="removerItem(${index})" style="background: #444; color:white;">Remover</button>
-        `;
-        containerLista.appendChild(card);
+// --- CATEGORIAS ---
+async function abrirGeneros(corpus) {
+    const modal = document.getElementById('modal-generos');
+    const lista = document.getElementById('lista-generos');
+    modal.classList.remove('hidden');
+    lista.innerHTML = "Buscando...";
+    const res = await fetch(`https://api.jikan.moe/v4/genres/${corpus}`);
+    const json = await res.json();
+    lista.innerHTML = "";
+    json.data.forEach(g => {
+        const b = document.createElement('button');
+        b.innerText = g.name;
+        b.onclick = () => {
+            fecharModalGeneros();
+            carregarConteudo(1, 'anime', corpus, g.mal_id);
+            document.getElementById('titulo-sessao').innerText = g.name;
+        };
+        lista.appendChild(b);
     });
 }
 
-function removerItem(index) {
-    let lista = JSON.parse(localStorage.getItem('meusAnimes'));
-    lista.splice(index, 1);
-    localStorage.setItem('meusAnimes', JSON.stringify(lista));
-    renderizarLista();
-}
-
-// 6. TEMA (DARK/LIGHT)
-function alternarTema() {
-    const html = document.documentElement;
-    const checkbox = document.getElementById('btn-tema');
-    const label = document.getElementById('tema-label');
-    
-    if (checkbox.checked) {
-        html.setAttribute('data-tema', 'dark');
-        label.innerText = "☀️";
-        localStorage.setItem('tema', 'dark');
-    } else {
-        html.removeAttribute('data-tema');
-        label.innerText = "🌙";
-        localStorage.setItem('tema', 'light');
-    }
-}
-
-// 7. INICIALIZAÇÃO
-window.onload = () => {
-    renderizarLista();
-    carregarPopulares('top');
-    
-    const temaSalvo = localStorage.getItem('tema');
-    const checkbox = document.getElementById('btn-tema');
-    if (temaSalvo === 'dark') {
-        document.documentElement.setAttribute('data-tema', 'dark');
-        if(checkbox) checkbox.checked = true;
-        const label = document.getElementById('tema-label');
-        if(label) label.innerText = "☀️";
-    }
-};
+function fecharModalGeneros() { document.getElementById('modal-generos').classList.add('hidden'); }
+function mudarPagina(p, t, c) { carregarConteudo(p, t, c); }

@@ -1,74 +1,107 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-tema="dark">
 <head>
     <meta charset="UTF-8">
-    <title>AniLog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniLog | Seu Portal de Animes e Mangás</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="destaque.css">
 </head>
 <body>
-    <header>
-        <h1>AniLog</h1>
-        <div class="busca-box">
-            <input type="text" id="inputBusca" placeholder="Pesquisar anime...">
-            <button onclick="buscarAnimes()">🔍</button>
-        </div>
 
-        <div class="tema-container">
-            <span id="tema-label">🌙</span>
-            <label class="switch">
-                <input type="checkbox" id="btn-tema" onclick="alternarTema()">
-                <span class="slider round"></span>
-            </label>
-        </div>
+    <header class="main-header">
+        <div class="nav-container">
+            <h1 class="logo" onclick="window.location.reload()">AniLog</h1>
+            
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#" class="nav-item" onclick="mostrarSecao('anime')">Animes ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="filtrar('top', 'anime')">Mais Populares</a></li>
+                            <li><a href="#" onclick="filtrar('seasons', 'anime')">Nova Temporada</a></li>
+                            <li><a href="#" onclick="abrirModalCategorias('anime')">Categorias (Gêneros)</a></li>
+                        </ul>
+                    </li>
 
-       <section id="sessao-filtros">
-    <button class="btn-explorar" onclick="toggleFiltros()">
-        <h2 class="nav-h2">Explorar animes ▾</h2>
-    </button>
-    
-    <div id="filtros-menu" class="filtros hidden">
-        <button onclick="carregarPopulares('top')" class="btn-filtros">Mais Populares</button>
-        <button onclick="carregarPopulares('temporada')" class="btn-filtros">Destaques da temporada</button>
-        <button onclick="carregarPopulares('nota')" class="btn-filtros">Melhores Avaliados</button>
-    </div>
-</section>
+                    <li class="dropdown">
+                        <a href="#" class="nav-item" onclick="mostrarSecao('manga')">Mangás ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="filtrar('top', 'manga')">Mais Populares</a></li>
+                            <li><a href="#" onclick="abrirModalCategorias('manga')">Categorias (Gêneros)</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="minhalista.html">Minha Lista</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-right">
+                <div class="busca-box">
+                    <input type="text" id="inputBusca" placeholder="Pesquisar anime...">
+                    <button onclick="realizarBusca()">🔍</button>
+                </div>
+                <button id="btn-tema" class="tema-toggle" onclick="alternarTema()">🌙</button>
+            </div>
+        </div>
     </header>
 
     <main>
-        <section id="sessao-busca" class="hidden">
-            <h2 style="padding: 20px;">Resultados da Busca</h2>
-            <div id="container-resultados" class="grid-animes"></div>
-            <hr>
-        </section>
-
-        <section id="sessao-populares">
-            <div id="container-populares" class="grid-animes">
-                <p>Carregando destaques...</p>
+        <section id="secao-destaque" class="destaque-wrapper">
+            <div class="container">
+                <div class="sessao-titulo">
+                    <span>Lançamentos & Notícias</span>
+                    <h2>Destaques da Semana</h2>
+                </div>
+                
+                <div id="carrossel-noticias" class="destaque-container">
+                    </div>
             </div>
         </section>
 
-        <hr>
+        <section id="secao-explorar" class="conteudo-principal hidden">
+            <div class="container">
+                <div class="header-grid">
+                    <h2 id="titulo-pagina-atual">Animes Populares</h2>
+                    <div class="filtros-ativos" id="filtros-selecionados">
+                        </div>
+                </div>
 
-        <section id="sessao-lista">
-            <h2>Minha Lista de Assistidos</h2>
-            <div id="minha-lista" class="grid-animes"></div>
+                <div id="container-cards" class="grid-animes">
+                    </div>
+
+                <div id="paginacao" class="paginacao-container">
+                    </div>
+            </div>
         </section>
     </main>
 
     <div id="modal-avaliacao" class="modal hidden">
         <div class="modal-content">
-            <h3>Avaliar Anime</h3>
-            <p id="nome-anime-modal"></p>
-            <label>Nota (0-10):</label>
-            <input type="number" id="nota-input" min="0" max="10">
-            <label>O que achou?</label>
-            <textarea id="comentario-input" placeholder="Escreva sua opinião..."></textarea>
-            <div class="modal-btns">
-                <button onclick="salvarNaLista()">Salvar</button>
-                <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+            <div class="modal-header">
+                <h3>Adicionar à Lista</h3>
+                <button onclick="fecharModal()" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="anime-info-modal"></div>
+                <label>Sua Nota (0-10):</label>
+                <input type="number" id="nota-anime" min="0" max="10" step="0.5">
+                <label>O que achou do anime?</label>
+                <textarea id="comentario-anime" placeholder="Escreva sua opinião..."></textarea>
+                <button class="btn-salvar" onclick="salvarNaLista()">Salvar na Minha Lista</button>
             </div>
         </div>
     </div>
+
+    <div id="modal-categorias" class="modal hidden">
+        <div class="modal-content">
+            <h3>Escolha um Gênero</h3>
+            <div id="lista-generos" class="generos-grid"></div>
+            <button onclick="fecharModalCategorias()" class="btn-fechar">Fechar</button>
+        </div>
+    </div>
+
     <script src="js.js"></script>
 </body>
 </html>

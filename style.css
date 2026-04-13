@@ -1,271 +1,68 @@
-/* RESET PADRÃO */
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 :root {
-    --cor-primaria: #0FC2C0; 
-    --cor-secundaria: #0CABA8;
-    --cor-detalhe: #008F8C;
-    --cor-fundo: #ffffff;
-    --bg-gradient: linear-gradient(180deg, #023535 0%, #015958 100%);
-    --cor-texto: white;
-    --cor-card: #075a59e0; 
-    --cor-borda: #0FC2C0;
+    --cor-fundo: #012030;
+    --cor-card: #023535;
+    --cor-primaria: #0FC2C0;
+    --cor-texto: #ffffff;
+    --cor-borda: #014955;
 }
 
-[data-tema="dark"] {
-    --bg-gradient: linear-gradient(180deg, #023535 0%, #000000 100%);
-    --cor-card: #034444;
-    --cor-borda: #043f3e;
-    --cor-fundo: black;
-    --cor-texto: #059795;
-    --cor-detalhe: #08a89ec2;
+[data-tema="light"] {
+    --cor-fundo: #f0f2f5;
+    --cor-card: #ffffff;
+    --cor-primaria: #008F8C;
+    --cor-texto: #012030;
+    --cor-borda: #ced4da;
 }
 
-/* CONFIGURAÇÕES DO CORPO */
-body {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Arial', sans-serif;
-    background-color: var(--cor-fundo);
+/* Ajuste do Botão de Tema na Nav */
+.btn-tema-toggle {
+    background: var(--cor-card);
+    border: 1px solid var(--cor-borda);
     color: var(--cor-texto);
-    width: 100%;
-    min-height: 100vh;
-}
-
-/* HEADER E BUSCA */
-header {
-    text-align: center;
-    margin-bottom: 40px;
-    background: var(--bg-gradient);
-    padding-bottom: 35px;
-    position: relative;
-}
-
-header > h1 {
-    margin: 0 auto;
-    padding: 15px;
-    color: #038582;
-}
-
-.busca-box input {
-    padding: 12px;
-    width: 300px;
-    border-radius: 5px 0 0 5px;
-    border: none;
-    outline: none;
-}
-
-.busca-box button {
-    padding: 10px;
-    background: var(--cor-detalhe);
-    border: none;
     cursor: pointer;
-    border-radius: 0 5px 5px 0;
-    color: white;
-}
-
-/* BOTÃO DE TEMA (SWITCH) */
-.tema-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    z-index: 1000;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 18px; width: 18px;
-    left: 4px; bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: var(--cor-primaria);
-}
-
-input:checked + .slider:before {
-    transform: translateX(24px);
-}
-
-/* Estilo do botão que substituiu o H2 */
-.btn-explorar {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: inherit;
-    display: flex;
-    outline: none;
-    width: 100%;
-    align-items: flex-start;
-}
-
-.btn-explorar h2 {
-    background-color: var(--cor-detalhe);
-    padding: 10px 30px;
-    border-radius: 10px;
+    justify-content: center;
     transition: 0.3s;
-    font-size: 15px;
-    margin: 10px;
-    padding: 10px;
 }
 
-.btn-explorar h2:hover {
-    background-color: var(--cor-primaria);
-    transform: scale(1.05);
-}
-
-/* Ajuste na div de filtros para aparecer bem */
-.filtros {
-    margin-top: 1px;
-    display: flex;
-    flex-direction: column; /* Botões um embaixo do outro ao abrir */
-    align-items: flex-start;
-    gap: 8px;
-}
-
-/* Classe hidden que já usamos no modal, agora aplicada aos filtros */
-.hidden {
-    display: none !important;
-}
-
-/* FILTROS */
-#sessao-filtros {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.btn-filtros {
-    background-color: transparent;
-    color: var(--cor-texto);
-    border: 2px solid var(--cor-detalhe);
-    padding: 8px 10px;
-    margin: 0px 8px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    font-size: 10px;
-}
-
-.btn-filtros:hover {
-    background-color: var(--cor-card);
+.btn-tema-toggle:hover {
     border-color: var(--cor-primaria);
-    transform: scale(1.05);
 }
 
-/* GRID E CARDS */
+/* Design dos Cards (mantendo seu estilo) */
 .grid-animes {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 20px;
     padding: 20px;
 }
 
 .card {
     background: var(--cor-card);
-    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
     overflow: hidden;
-    text-align: center;
-    transition: all 0.2s ease;
+    transition: 0.3s;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px var(--cor-borda);
+    transform: scale(1.03);
+    border-color: var(--cor-primaria);
 }
 
-.card:active {
-    transform: scale(0.95);
+.header-sessao {
+    padding: 0 20px;
+    margin-top: 30px;
+    border-left: 4px solid var(--cor-primaria);
 }
 
-.card img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-}
-
-.card h4 {
-    padding: 10px;
-    font-size: 14px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.card button {
-    width: 100%;
-    padding: 10px;
-    background: var(--cor-detalhe);
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* MODAL */
-.modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-}
-
-.modal-content {
-    background: white;
-    color: #333;
-    padding: 25px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-}
-
-.hidden { display: none; }
-
-textarea { 
-    width: 100%; 
-    height: 80px; 
-    margin: 10px 0; 
-    padding: 10px;
-}
-
-input[type="number"] { 
-    width: 60px; 
-    padding: 5px;
+.divisor {
+    border: 0;
+    height: 1px;
+    background: var(--cor-borda);
+    margin: 50px 0;
 }
