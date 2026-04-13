@@ -1,0 +1,102 @@
+/* --- LAYOUT PRINCIPAL --- */
+#detalhes-container {
+    padding: 40px 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Cabeçalho de Detalhes (Vídeo + Info) */
+.detalhes-header {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    background: var(--cor-card);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid var(--cor-borda);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.info-principal h2 {
+    font-size: 2.5rem;
+    color: var(--cor-primaria);
+    margin-bottom: 15px;
+}
+
+.tags-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tag-item {
+    background: var(--cor-fundo);
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-primaria);
+}
+
+.sinopse-box h3 { margin-bottom: 10px; color: var(--cor-primaria); }
+.sinopse-box p { line-height: 1.8; color: #ccc; font-size: 1rem; }
+
+/* Player de Vídeo */
+.video-player {
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 350px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+}
+
+.video-player iframe { width: 100%; height: 100%; border: none; }
+
+/* --- SEÇÃO DE ELENCO E PERSONAGENS --- */
+.secao-secundaria {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+}
+
+.grid-personagens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.personagem-card {
+    text-align: center;
+}
+
+.personagem-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--cor-borda);
+}
+
+.personagem-card span { font-size: 0.8rem; display: block; font-weight: bold; }
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 900px) {
+    .detalhes-header, .secao-secundaria {
+        grid-template-columns: 1fr;
+    }
+    .video-player { height: 250px; order: -1; } /* Vídeo vai pra cima no celular */
+}
+
+.btn-voltar {
+    background: transparent;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}

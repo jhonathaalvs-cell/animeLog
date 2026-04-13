@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-tema="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniLog | Minha Lista</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="lista.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="nav-container">
+            <h1 class="logo" onclick="window.location.href='index.html'">AniLog</h1>
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="lista.html" class="ativo">Minha Lista</a></li>
+                </ul>
+            </nav>
+            <button id="btn-tema" class="tema-toggle" onclick="alternarTema()">🌙</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="header-lista">
+            <h2>Minha Coleção</h2>
+            <div class="abas-container">
+                <button class="aba-btn active" onclick="trocarAba('anime')">Animes</button>
+                <button class="aba-btn" onclick="trocarAba('manga')">Mangás</button>
+            </div>
+        </div>
+
+        <div id="grid-minha-lista" class="grid-animes">
+            </div>
+
+        <div id="lista-vazia" class="hidden">
+            <div class="aviso-vazio">
+                <span>j</span>
+                <p id="msg-vazia">Sua lista de animes está vazia.</p>
+                <button class="btn-primario" onclick="window.location.href='index.html'">Explorar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="lista.js"></script>
+</body>
+</html>

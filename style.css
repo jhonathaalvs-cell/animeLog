@@ -4,6 +4,7 @@
     --cor-primaria: #0FC2C0;
     --cor-texto: #ffffff;
     --cor-borda: #014955;
+    --cor-detalhe: #008F8C;
 }
 
 [data-tema="light"] {
@@ -14,55 +15,175 @@
     --cor-borda: #ced4da;
 }
 
-/* Ajuste do Botão de Tema na Nav */
-.btn-tema-toggle {
-    background: var(--cor-card);
-    border: 1px solid var(--cor-borda);
-    color: var(--cor-texto);
-    cursor: pointer;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: var(--cor-fundo); color: var(--cor-texto); overflow-x: hidden; transition: 0.3s; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+.hidden { display: none !important; }
+
+/* NAVBAR PRINCIPAL */
+.main-header { 
+    background: var(--cor-card); 
+    border-bottom: 2px solid var(--cor-borda); 
+    padding: 15px 0; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
 }
 
-.btn-tema-toggle:hover {
-    border-color: var(--cor-primaria);
+.nav-container { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
 }
 
-/* Design dos Cards (mantendo seu estilo) */
-.grid-animes {
+.logo { font-size: 1.8rem; font-weight: 800; color: var(--cor-primaria); cursor: pointer; letter-spacing: -1px; }
+
+.nav-links { display: flex; gap: 25px; align-items: center; }
+.nav-item { font-weight: 600; font-size: 0.95rem; transition: 0.3s; padding: 8px 0; cursor: pointer; }
+.nav-item:hover { color: var(--cor-primaria); }
+
+/* DROPDOWN */
+.dropdown { position: relative; }
+.dropdown-menu { 
+    position: absolute; 
+    top: 100%; 
+    left: 0; 
+    background: var(--cor-card); 
+    border: 1px solid var(--cor-borda); 
+    min-width: 180px; 
+    border-radius: 8px; 
+    display: none; 
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3); 
+}
+.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-menu li a { display: block; padding: 12px 15px; font-size: 0.85rem; transition: 0.2s; }
+.dropdown-menu li a:hover { background: var(--cor-borda); color: var(--cor-primaria); }
+
+/* BUSCA */
+.busca-box { position: relative; display: flex; align-items: center; }
+.busca-box input { 
+    background: var(--cor-fundo); 
+    border: 1px solid var(--cor-borda); 
+    color: white; 
+    padding: 10px 15px; 
+    border-radius: 20px; 
+    width: 250px; 
+    outline: none; 
+    transition: 0.3s; 
+}
+.busca-box input:focus { border-color: var(--cor-primaria); width: 300px; }
+
+/* SEÇÃO DESTAQUE */
+#secao-destaque { padding: 40px 0; }
+.destaque-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.card {
-    background: var(--cor-card);
+    grid-template-columns: 220px 1fr 1.5fr;
+    gap: 30px;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--cor-card) 0%, #011520 100%);
+    border-radius: 20px;
     border: 1px solid var(--cor-borda);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: 0.3s;
 }
 
-.card:hover {
-    transform: scale(1.03);
-    border-color: var(--cor-primaria);
+.destaque-capa img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+.destaque-info h2 { font-size: 2rem; margin-bottom: 15px; color: var(--cor-primaria); }
+.destaque-sinopse { font-size: 0.95rem; color: #ccc; line-height: 1.6; margin-bottom: 20px; }
+
+/* BOTÕES */
+.btn-primario { 
+    background: var(--cor-primaria); 
+    color: var(--cor-fundo); 
+    border: none; 
+    padding: 12px 25px; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: 0.3s; 
+}
+.btn-primario:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+/* GRID DE ANIMES */
+.grid-animes { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+    gap: 25px; 
+    margin-top: 30px; 
 }
 
-.header-sessao {
-    padding: 0 20px;
-    margin-top: 30px;
-    border-left: 4px solid var(--cor-primaria);
+.card { 
+    background: var(--cor-card); 
+    border-radius: 12px; 
+    overflow: hidden; 
+    position: relative; 
+    transition: 0.3s; 
+    border: 1px solid var(--cor-borda);
+}
+.card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+.card img { width: 100%; height: 260px; object-fit: cover; cursor: pointer; }
+.card-content { padding: 15px; text-align: center; }
+.card-content h4 { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.btn-add-card {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
 }
 
-.divisor {
-    border: 0;
-    height: 1px;
-    background: var(--cor-borda);
-    margin: 50px 0;
+/* MODAIS */
+.modal { 
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.8); 
+    display: flex; align-items: center; justify-content: center; 
+    z-index: 2000; 
+}
+.modal-content { 
+    background: var(--cor-card); 
+    padding: 30px; 
+    border-radius: 15px; 
+    width: 90%; max-width: 500px; 
+    border: 1px solid var(--cor-borda); 
+}
+.modal-body label { display: block; margin: 15px 0 5px; color: var(--cor-primaria); font-weight: bold; }
+.modal-body input, .modal-body textarea { 
+    width: 100%; padding: 12px; background: var(--cor-fundo); 
+    border: 1px solid var(--cor-borda); border-radius: 8px; color: white; 
+}
+
+/* --- RESPONSIVIDADE FINAL CORRIGIDA --- */
+@media (max-width: 1024px) {
+    .destaque-container { grid-template-columns: 200px 1fr; }
+    .destaque-media { display: none; } /* Esconde o player grande em tablets */
+}
+
+@media (max-width: 900px) {
+    .nav-container { flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .nav-links { order: 2; width: 100%; justify-content: center; gap: 15px; }
+    .busca-box { order: 3; width: 100%; }
+    .busca-box input { width: 100%; }
+    
+    .destaque-container { grid-template-columns: 1fr; text-align: center; }
+    .destaque-capa { display: none; }
+}
+
+@media (max-width: 480px) {
+    .logo { font-size: 1.4rem; }
+    .nav-item { font-size: 0.8rem; }
+    .grid-animes { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+    .card img { height: 200px; }
 }
