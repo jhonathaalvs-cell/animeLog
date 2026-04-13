@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Meu Anime Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header>
@@ -13,12 +15,39 @@
             <input type="text" id="inputBusca" placeholder="Pesquisar anime...">
             <button onclick="buscarAnimes()">🔍</button>
         </div>
+
+  <div class="tema-container">
+  <span id="tema-label">☾☀︎</span>
+  <label class="switch">
+    <input type="checkbox" id="btn-tema" onclick="alternarTema()">
+    <span class="slider round"></span>
+  </label>
+</div>
+
+<section id="sessao-destaque">
+
+            <h2 class="nav-h2">Explorar animes</h2>
+
+            <div class="filtros">
+                <button onclick="carregarPopulares('top')" class="btn-filtros">Mais Populares</button>
+                <button onclick="carregarPopulares('temporada')" class="btn-filtros">Destaques da temporada</button>
+                <button onclick="carregarPopulares('nota')" class="btn-filtros">Melhores Avaliados
+            </div>
+
+        </section>
+
+
     </header>
 
+
     <main>
-        <section id="sessao-busca" class="hidden">
-            <h2>Resultados da Busca</h2>
-            <div id="container-resultados" class="grid-animes"></div>
+
+        <section id="sessao-destaque">
+
+            <div id="container-populares" class="grid-animes">
+                <p>Selecione um filtro ou aguarde</p>
+            </div>
+
         </section>
 
         <hr>
@@ -26,7 +55,7 @@
         <section id="sessao-lista">
             <h2>Minha Lista de Assistidos</h2>
             <div id="minha-lista" class="grid-animes">
-                </div>
+            </div>
         </section>
     </main>
 
@@ -36,10 +65,10 @@
             <p id="nome-anime-modal"></p>
             <label>Nota (0-10):</label>
             <input type="number" id="nota-input" min="0" max="10">
-            
+
             <label>O que achou?</label>
             <textarea id="comentario-input" placeholder="Escreva sua opinião..."></textarea>
-            
+
             <div class="modal-btns">
                 <button onclick="salvarNaLista()">Salvar</button>
                 <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
@@ -49,4 +78,5 @@
 
     <script src="js.js"></script>
 </body>
+
 </html>

@@ -3,13 +3,36 @@ padding: 0;
 margin: 0;
 }
 
+
+:root{
+   --cor-primaria:#0FC2C0; 
+   --cor-secundaria:#0CABA8;
+   --cor-detalhe:#008F8C;
+    --cor-fundo: #ffffff;
+
+    --bg-gradient: linear-gradient(180deg, #023535 0%, #015958 100%);
+    --cor-texto: white;
+    --cor-card: #075a59e0; 
+    --cor-borda: #0FC2C0;
+}
+
+[data-tema="dark"] {
+    /* No modo noturno, podemos carregar mais no tom mais escuro da sua paleta */
+    --bg-gradient: linear-gradient(180deg, #023535 0%, #000000 100%);
+    --cor-card: #034444;
+    --cor-borda: #043f3e;
+    --cor-fundo:black;
+    --cor-texto:#059795;
+    --cor-detalhe:#08a89ec2;
+}
+
 /* Configurações Gerais */
 body {
     display: flex;
     flex-direction: column;
     font-family: 'Arial', sans-serif;
-    background-color: #a1e487bb;
-    color: white;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
     width: 100%;
     min-height: 100vh;
 }
@@ -17,14 +40,116 @@ body {
 header {
     text-align: center;
     margin-bottom: 40px;
+  background: var(--bg-gradient);
+  padding-bottom: 35px;
 }
 
 header > h1{
     margin: 0 auto;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding: 15px;
-    background-image: linear-gradient( to left, rgb(0, 255, 98), rgb(28, 165, 62), rgb(14, 119, 31));
+    color: #038582;
+}
 
+/* Posicionamento no canto do site */
+.tema-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000; /* Garante que fique acima de tudo */
+}
+
+header > section{
+margin-top: 20px;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding-left: 10px;
+}
+
+.btn-filtros{
+background-color: transparent;
+color: var(--cor-texto);
+border: 2px solid #008f8c;
+padding: 10px 20px;
+margin-top: 8px;
+border-radius: 25px;
+cursor: pointer;
+font-weight: bold;
+transition: all 0.3s ease;
+}
+
+.btn-filtros:hover {
+    background-color: var(--cor-card);
+    border-color: #0FC2C0;
+    transform: scale(1.05);
+    color: whitesmoke;
+}
+
+.btn-filtros.active {
+    background-color: #0FC2C0;
+    border-color: #0FC2C0;
+    color: #023535;}
+
+#tema-label {
+    font-size: 20px;
+}
+
+/* Esconde o checkbox real */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* O fundo do botão (o caminho) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+/* A bolinha que move */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+/* Cor quando estiver ativado (Modo Escuro) */
+input:checked + .slider {
+    background-color: #0FC2C0; /* Sua cor vibrante */
+}
+
+/* Move a bolinha para a direita */
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+#btn-tema{
+margin-top: 10px;
 }
 
 .busca-box input {
@@ -37,8 +162,7 @@ header > h1{
 
 .busca-box button {
     padding: 10px;
-    background: #0aaf62;
-    color: rgb(236, 236, 236);
+    background: var(--cor-detalhe);
     border: none;
     cursor: pointer;
     padding-bottom: 12.2px;
@@ -54,7 +178,7 @@ header > h1{
 }
 
 .card {
-    background: #2ef085;
+    background: var(--cor-card);
     border-radius: 8px;
     overflow: hidden;
     text-align: center;
@@ -68,7 +192,7 @@ transform: scale(0.95);
 
 .card:hover{
 transform: translatey(-5px);
-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.527);
+box-shadow: 0 1px 8px var(--cor-borda);
 }
 
 .card img {
@@ -86,29 +210,29 @@ box-shadow: 0 10px 20px rgba(0, 0, 0, 0.527);
 .card button {
     width: 100%;
     padding: 10px;
-    background: #13be5b;
-    color: white;
+    background: var(--cor-detalhe);
+    color: black;
     border: none;
     cursor: pointer;
 }
 
 .card button:hover{
-background-color: rgb(10, 85, 3);
+background-color: var(--cor-secundaria);
 }
 
 /* Modal Estilo */
 .modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(17, 17, 17, 0.8);
+    background: var(--cor-secundaria);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    background: #fff;
-    color: #333;
+    background: white;
+    color: #8f0000;
     padding: 25px;
     border-radius: 10px;
     width: 90%;
