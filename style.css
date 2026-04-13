@@ -1,15 +1,15 @@
-*{
-padding: 0;
-margin: 0;
+/* RESET PADRÃO */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-
-:root{
-   --cor-primaria:#0FC2C0; 
-   --cor-secundaria:#0CABA8;
-   --cor-detalhe:#008F8C;
+:root {
+    --cor-primaria: #0FC2C0; 
+    --cor-secundaria: #0CABA8;
+    --cor-detalhe: #008F8C;
     --cor-fundo: #ffffff;
-
     --bg-gradient: linear-gradient(180deg, #023535 0%, #015958 100%);
     --cor-texto: white;
     --cor-card: #075a59e0; 
@@ -17,16 +17,15 @@ margin: 0;
 }
 
 [data-tema="dark"] {
-    /* No modo noturno, podemos carregar mais no tom mais escuro da sua paleta */
     --bg-gradient: linear-gradient(180deg, #023535 0%, #000000 100%);
     --cor-card: #034444;
     --cor-borda: #043f3e;
-    --cor-fundo:black;
-    --cor-texto:#059795;
-    --cor-detalhe:#08a89ec2;
+    --cor-fundo: black;
+    --cor-texto: #059795;
+    --cor-detalhe: #08a89ec2;
 }
 
-/* Configurações Gerais */
+/* CONFIGURAÇÕES DO CORPO */
 body {
     display: flex;
     flex-direction: column;
@@ -37,21 +36,39 @@ body {
     min-height: 100vh;
 }
 
+/* HEADER E BUSCA */
 header {
     text-align: center;
     margin-bottom: 40px;
-  background: var(--bg-gradient);
-  padding-bottom: 35px;
+    background: var(--bg-gradient);
+    padding-bottom: 35px;
+    position: relative;
 }
 
-header > h1{
+header > h1 {
     margin: 0 auto;
-    margin-bottom: 20px;
     padding: 15px;
     color: #038582;
 }
 
-/* Posicionamento no canto do site */
+.busca-box input {
+    padding: 12px;
+    width: 300px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    outline: none;
+}
+
+.busca-box button {
+    padding: 10px;
+    background: var(--cor-detalhe);
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    color: white;
+}
+
+/* BOTÃO DE TEMA (SWITCH) */
 .tema-container {
     position: absolute;
     top: 20px;
@@ -59,46 +76,9 @@ header > h1{
     display: flex;
     align-items: center;
     gap: 10px;
-    z-index: 1000; /* Garante que fique acima de tudo */
+    z-index: 1000;
 }
 
-header > section{
-margin-top: 20px;
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding-left: 10px;
-}
-
-.btn-filtros{
-background-color: transparent;
-color: var(--cor-texto);
-border: 2px solid #008f8c;
-padding: 10px 20px;
-margin-top: 8px;
-border-radius: 25px;
-cursor: pointer;
-font-weight: bold;
-transition: all 0.3s ease;
-}
-
-.btn-filtros:hover {
-    background-color: var(--cor-card);
-    border-color: #0FC2C0;
-    transform: scale(1.05);
-    color: whitesmoke;
-}
-
-.btn-filtros.active {
-    background-color: #0FC2C0;
-    border-color: #0FC2C0;
-    color: #023535;}
-
-#tema-label {
-    font-size: 20px;
-}
-
-/* Esconde o checkbox real */
 .switch {
     position: relative;
     display: inline-block;
@@ -112,69 +92,104 @@ transition: all 0.3s ease;
     height: 0;
 }
 
-/* O fundo do botão (o caminho) */
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background-color: #ccc;
     transition: .4s;
     border-radius: 34px;
 }
 
-/* A bolinha que move */
 .slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
-    left: 4px;
-    bottom: 3px;
+    height: 18px; width: 18px;
+    left: 4px; bottom: 3px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
 }
 
-/* Cor quando estiver ativado (Modo Escuro) */
 input:checked + .slider {
-    background-color: #0FC2C0; /* Sua cor vibrante */
+    background-color: var(--cor-primaria);
 }
 
-/* Move a bolinha para a direita */
 input:checked + .slider:before {
     transform: translateX(24px);
 }
 
-#btn-tema{
-margin-top: 10px;
-}
-
-.busca-box input {
-    padding: 12px;
-    width: 300px;
-    border-radius: 5px 0 0 5px;
-    border: none;
-    margin-right: -5px;
-}
-
-.busca-box button {
-    padding: 10px;
-    background: var(--cor-detalhe);
+/* Estilo do botão que substituiu o H2 */
+.btn-explorar {
+    background: none;
     border: none;
     cursor: pointer;
-    padding-bottom: 12.2px;
-    border-radius: 0 5px 5px 0;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    outline: none;
 }
 
-/* Grid de Animes */
+.btn-explorar h2 {
+    background-color: var(--cor-detalhe);
+    padding: 10px 30px;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-size: 22px;
+}
+
+.btn-explorar h2:hover {
+    background-color: var(--cor-primaria);
+    transform: scale(1.05);
+}
+
+/* Ajuste na div de filtros para aparecer bem */
+.filtros {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column; /* Botões um embaixo do outro ao abrir */
+    align-items: center;
+    gap: 10px;
+}
+
+/* Classe hidden que já usamos no modal, agora aplicada aos filtros */
+.hidden {
+    display: none !important;
+}
+
+/* FILTROS */
+#sessao-filtros {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-filtros {
+    background-color: transparent;
+    color: var(--cor-texto);
+    border: 2px solid var(--cor-detalhe);
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-filtros:hover {
+    background-color: var(--cor-card);
+    border-color: var(--cor-primaria);
+    transform: scale(1.05);
+}
+
+/* GRID E CARDS */
 .grid-animes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
-    padding: 50px 29px;
+    padding: 20px;
 }
 
 .card {
@@ -182,57 +197,56 @@ margin-top: 10px;
     border-radius: 8px;
     overflow: hidden;
     text-align: center;
-    transition: transform 0.1s ease-in-out;
-    transition: 0.2 ease;
+    transition: all 0.2s ease;
 }
 
-.card:active{
-transform: scale(0.95);
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px var(--cor-borda);
 }
 
-.card:hover{
-transform: translatey(-5px);
-box-shadow: 0 1px 8px var(--cor-borda);
+.card:active {
+    transform: scale(0.95);
 }
 
 .card img {
     width: 100%;
-    height: 270px;
+    height: 250px;
     object-fit: cover;
 }
 
 .card h4 {
     padding: 10px;
-    font-size: 15px;
-    height: 40px;
+    font-size: 14px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card button {
     width: 100%;
     padding: 10px;
     background: var(--cor-detalhe);
-    color: black;
+    color: white;
     border: none;
     cursor: pointer;
 }
 
-.card button:hover{
-background-color: var(--cor-secundaria);
-}
-
-/* Modal Estilo */
+/* MODAL */
 .modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--cor-secundaria);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2000;
 }
 
 .modal-content {
     background: white;
-    color: #8f0000;
+    color: #333;
     padding: 25px;
     border-radius: 10px;
     width: 90%;
@@ -241,5 +255,14 @@ background-color: var(--cor-secundaria);
 
 .hidden { display: none; }
 
-textarea { width: 100%; height: 80px; margin-top: 10px; }
-input[type="number"] { width: 50px; }
+textarea { 
+    width: 100%; 
+    height: 80px; 
+    margin: 10px 0; 
+    padding: 10px;
+}
+
+input[type="number"] { 
+    width: 60px; 
+    padding: 5px;
+}

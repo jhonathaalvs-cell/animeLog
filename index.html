@@ -1,61 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
-    <title>Meu Anime Tracker</title>
+    <title>AniLog</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
     <header>
-        <h1>AnimeLog</h1>
+        <h1>AniLog</h1>
         <div class="busca-box">
             <input type="text" id="inputBusca" placeholder="Pesquisar anime...">
             <button onclick="buscarAnimes()">🔍</button>
         </div>
 
-  <div class="tema-container">
-  <span id="tema-label">☾☀︎</span>
-  <label class="switch">
-    <input type="checkbox" id="btn-tema" onclick="alternarTema()">
-    <span class="slider round"></span>
-  </label>
-</div>
+        <div class="tema-container">
+            <span id="tema-label">🌙</span>
+            <label class="switch">
+                <input type="checkbox" id="btn-tema" onclick="alternarTema()">
+                <span class="slider round"></span>
+            </label>
+        </div>
 
-<section id="sessao-destaque">
-
-            <h2 class="nav-h2">Explorar animes</h2>
-
+        <section id="sessao-filtros">
+            <button class="btn-explorar" onclick="toggleFiltros()">
+                <h2 class="nav-h2">Explorar animes</h2>
+            </button>
             <div class="filtros">
                 <button onclick="carregarPopulares('top')" class="btn-filtros">Mais Populares</button>
                 <button onclick="carregarPopulares('temporada')" class="btn-filtros">Destaques da temporada</button>
-                <button onclick="carregarPopulares('nota')" class="btn-filtros">Melhores Avaliados
+                <button onclick="carregarPopulares('nota')" class="btn-filtros">Melhores Avaliados</button>
             </div>
-
-        </section>
-
-
+        </button>
     </header>
 
-
     <main>
+        <section id="sessao-busca" class="hidden">
+            <h2 style="padding: 20px;">Resultados da Busca</h2>
+            <div id="container-resultados" class="grid-animes"></div>
+            <hr>
+        </section>
 
-        <section id="sessao-destaque">
-
+        <section id="sessao-populares">
             <div id="container-populares" class="grid-animes">
-                <p>Selecione um filtro ou aguarde</p>
+                <p>Carregando destaques...</p>
             </div>
-
         </section>
 
         <hr>
 
         <section id="sessao-lista">
             <h2>Minha Lista de Assistidos</h2>
-            <div id="minha-lista" class="grid-animes">
-            </div>
+            <div id="minha-lista" class="grid-animes"></div>
         </section>
     </main>
 
@@ -65,18 +60,14 @@
             <p id="nome-anime-modal"></p>
             <label>Nota (0-10):</label>
             <input type="number" id="nota-input" min="0" max="10">
-
             <label>O que achou?</label>
             <textarea id="comentario-input" placeholder="Escreva sua opinião..."></textarea>
-
             <div class="modal-btns">
                 <button onclick="salvarNaLista()">Salvar</button>
                 <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
             </div>
         </div>
     </div>
-
     <script src="js.js"></script>
 </body>
-
 </html>

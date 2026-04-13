@@ -1,6 +1,14 @@
 // Variáveis para controlar qual anime estamos avaliando no momento
 let animeSendoAvaliado = null;
 
+// --- NOVA FUNÇÃO PARA O BOTÃO EXPLORAR ---
+function toggleFiltros() {
+    const menu = document.getElementById('filtros-menu');
+    if (menu) {
+        menu.classList.toggle('hidden');
+    }
+}
+
 // 1. FUNÇÃO DE EXPLORAR/FILTROS (Populares, Temporada, Notas)
 async function carregarPopulares(tipo = 'top') {
     const container = document.getElementById('container-populares');
@@ -40,6 +48,11 @@ async function carregarPopulares(tipo = 'top') {
             `;
             container.appendChild(card);
         });
+
+        // Fecha o menu de filtros após a escolha
+        const menu = document.getElementById('filtros-menu');
+        if (menu) menu.classList.add('hidden');
+
     } catch (erro) {
         console.error("Erro ao carregar populares:", erro);
         container.innerHTML = "<p>Erro ao carregar dados. Tente novamente.</p>";
@@ -55,7 +68,7 @@ async function buscarAnimes() {
     const sessaoBusca = document.getElementById('sessao-busca');
     
     container.innerHTML = "Carregando...";
-    sessaoBusca.classList.remove('hidden');
+    if (sessaoBusca) sessaoBusca.classList.remove('hidden');
 
     try {
         const response = await fetch(`https://api.jikan.moe/v4/anime?q=${termo}&limit=8`);
@@ -68,7 +81,6 @@ async function buscarAnimes() {
             const card = document.createElement('div');
             card.className = 'card';
             
-            // CORREÇÃO AQUI: Tratamento para títulos com aspas simples
             const tituloTratado = anime.title.replace(/'/g, "\\'");
 
             card.innerHTML = `
@@ -83,6 +95,7 @@ async function buscarAnimes() {
         container.innerHTML = "Erro ao carregar animes.";
     }
 }
+
 // 3. FUNÇÕES DO MODAL (Abrir e Fechar)
 function abrirModal(titulo, imagem) {
     animeSendoAvaliado = { titulo, imagem };
@@ -132,7 +145,7 @@ function renderizarLista() {
             <h4>${item.titulo}</h4>
             <p>⭐ Sua Nota: ${item.nota}</p>
             <p style="font-size: 12px; padding: 5px; color: #ccc;">"${item.comentario}"</p>
-            <button onclick="removerItem(${index})" style="background: #444">Remover</button>
+            <button onclick="removerItem(${index})" style="background: #444; color: white;">Remover</button>
         `;
         containerLista.appendChild(card);
     });
@@ -146,35 +159,35 @@ function removerItem(index) {
     renderizarLista();
 }
 
-// 7. INICIALIZAÇÃO
-// Quando a página carrega, mostra a lista salva e carrega os populares por padrão
-window.onload = () => {
-    renderizarLista();
-    carregarPopulares('top');
-};
-
+// 7. TEMA (Modo Noturno/Claro)
 function alternarTema() {
-    const html = document.documentElement; // Pega o <html> do site
-    const botao = document.getElementById('btn-tema');
+    const html = document.documentElement;
+    const checkbox = document.getElementById('btn-tema');
+    const label = document.getElementById('tema-label');
     
-    // Verifica qual o tema atual e troca
-    if (html.getAttribute('data-tema') === 'dark') {
-        html.removeAttribute('data-tema');
-        botao.innerText = "Modo Noturno";
-        localStorage.setItem('tema', 'light');
-    } else {
+    if (checkbox.checked) {
         html.setAttribute('data-tema', 'dark');
-        botao.innerText = "Modo Claro";
+        label.innerText = "☀️";
         localStorage.setItem('tema', 'dark');
+    } else {
+        html.removeAttribute('data-tema');
+        label.innerText = "🌙";
+        localStorage.setItem('tema', 'light');
     }
 }
 
-// Verifica se o usuário já tinha escolhido um tema antes de carregar a página
-window.addEventListener('load', () => {
+// 8. INICIALIZAÇÃO
+window.onload = () => {
+    renderizarLista();
+    carregarPopulares('top');
+    
     const temaSalvo = localStorage.getItem('tema');
+    const checkbox = document.getElementById('btn-tema');
+    const label = document.getElementById('tema-label');
+
     if (temaSalvo === 'dark') {
         document.documentElement.setAttribute('data-tema', 'dark');
-        document.getElementById('btn-tema').innerText = "Modo Claro";
+        if (checkbox) checkbox.checked = true;
+        if (label) label.innerText = "☀️";
     }
-    // Suas outras funções de carregar populares aqui...
-});
+};
